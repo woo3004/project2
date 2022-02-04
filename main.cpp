@@ -3,45 +3,49 @@
 #include "Scanner.h"
 #include "Parser.h"
 
-// int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
 
-//   vector<Token> myTokens;
+  vector<Token> myTokens;
   
-//   string fileName = argv[1];
+  string fileName = argv[1];
   
-//   Token t;
+  Token t;
 
-//   Scanner s = Scanner(s.ReadFile(fileName));
+  Scanner s = Scanner(s.ReadFile(fileName));
 
-//   while(!(t.checkEnd())) {
-//     // cout << "size: " << s.GetSize() << endl;
-//     t = s.scanToken();
-//     // cout << t.toString() << endl;
-//     myTokens.push_back(t);
+  while(!(t.checkEnd())) {
+    // cout << "size: " << s.GetSize() << endl;
+    t = s.scanToken();
+    // cout << t.toString() << endl;
+    myTokens.push_back(t);
 
-//   }
+  }
 
-//   for(unsigned i = 0; i < myTokens.size(); i++) {
-//     cout << myTokens.at(i).toString() << endl;
-//   }
+  for(unsigned i = 0; i < myTokens.size(); i++) {
+    cout << myTokens.at(i).toString() << endl;
+  }
 
-//   cout << "Total Tokens = " << s.GetTokenNum() << endl;
+  cout << "Total Tokens = " << s.GetTokenNum() << endl;
 
-//   return 0;
-// }
+  Parser p = Parser(myTokens);
 
-int main() {
+  cout << endl << typeName(p.tokenType()) << endl;
 
-  vector<Token> tokens = {
-    Token(COMMA,",",2),
-    Token(ID,"Ted",2),
-    Token(COMMA,",",2),
-    Token(ID,"Zed",2),
-    Token(RIGHT_PAREN,")",2),
-  };
-
-  Parser p = Parser(tokens);
-  p.idList();
-
+  return 0;
 }
+
+// int main() {
+
+//   vector<Token> tokens = {
+//     Token(COMMA,",",2),
+//     Token(ID,"Ted",2),
+//     Token(COMMA,",",2),
+//     Token(ID,"Zed",2),
+//     Token(RIGHT_PAREN,")",2),
+//   };
+
+//   Parser p = Parser(tokens);
+//   p.idList();
+
+// }
 

@@ -10,10 +10,11 @@ using namespace std;
 class Predicate {
     public:
         string id;
-        vector<Parameter> parameters;
+        vector<Parameter> parameter_set;
 
         void setId(string id) {
             this -> id = id;
         }
+    
 
 };
