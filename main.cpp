@@ -31,6 +31,8 @@ int main(int argc, char* argv[]) {
 
   cout << endl << typeName(p.tokenType()) << endl;
 
+  p.dataLogProgram();
+
   return 0;
 }
 

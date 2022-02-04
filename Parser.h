@@ -7,6 +7,11 @@
 class Parser {
     private:
     vector<Token> tokens;
+    Predicate pred;
+    Parameter para;
+    vector<Parameter> paraV;
+    Datalog Date;
+
     public:
     Parser(const vector<Token>& tokens) : tokens(tokens) { }
 
@@ -113,9 +118,6 @@ class Parser {
     }
 
 
-
-
-
     void scheme() {
         if (tokenType() == ID) {
         match(ID);
@@ -127,5 +129,31 @@ class Parser {
         throwError();
         }
     }
+
+    void fact() {
+        if (tokenType() == ID) {
+            match(ID);
+            match(LEFT_PAREN);
+            match(STRING);
+            stringList();
+            match(RIGHT_PAREN);
+            match(PERIOD);
+        } else {
+            throwError();
+        }
+    }
+
+    void rule() {
+    }
+
+    void query() {
+    }
+
+    void dataLogProgram() {
+        if(tokenType() == SCHEMES) {
+            
+        }
+    }
+
 };
 

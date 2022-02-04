@@ -12,4 +12,8 @@ class Parameter {
             this -> value = value;
         }
 
+        string getParameter() {
+            return value;
+        }
+
 };

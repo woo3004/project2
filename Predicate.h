@@ -15,6 +15,11 @@ class Predicate {
         void setId(string id) {
             this -> id = id;
         }
-    
+
+        void addParameter(Parameter para) {
+            parameter_set.push_back();
+        }
+        
+
 
 };
