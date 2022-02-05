@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "Scanner.h"
 #include "Parser.h"
 
 int main(int argc, char* argv[]) {
@@ -21,31 +20,17 @@ int main(int argc, char* argv[]) {
 
   }
 
-  for(unsigned i = 0; i < myTokens.size(); i++) {
-    cout << myTokens.at(i).toString() << endl;
-  }
+  // for(unsigned i = 0; i < myTokens.size(); i++) {
+  //   cout << myTokens.at(i).toString() << endl;
+  // }
 
-  cout << "Total Tokens = " << s.GetTokenNum() << endl << endl;
+  // cout << "Total Tokens = " << s.GetTokenNum() << endl << endl;
 
   Parser p = Parser(myTokens);
+
+  p.removeComment();
 
   p.datalogProgram();
 
   return 0;
 }
-
-// int main() {
-
-//   vector<Token> tokens = {
-//     Token(COMMA,",",2),
-//     Token(ID,"Ted",2),
-//     Token(COMMA,",",2),
-//     Token(ID,"Zed",2),
-//     Token(RIGHT_PAREN,")",2),
-//   };
-
-//   Parser p = Parser(tokens);
-//   p.idList();
-
-// }
-

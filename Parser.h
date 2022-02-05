@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Scanner.h"
 #include "Datalog.h"
 #include <vector>
@@ -12,13 +13,25 @@ class Parser {
     Parameter para;
     Datalog date;
     Rule r;
+    Token errToken;
     bool err = true;
+
 
     public:
     Parser(const vector<Token>& tokens) : tokens(tokens) { }
 
     void setError() {
         err = false;
+    }
+
+    void removeComment() {
+        for(unsigned i = 0; i < tokens.size(); i++) {
+            if(tokens.at(i).getType() == COMMENT) {
+                tokens.erase(tokens.begin()+i);
+                i--;
+            }
+            
+        }
     }
 
     TokenType tokenType() const {
@@ -28,78 +41,90 @@ class Parser {
         tokens.erase(tokens.begin());
     }
     void throwError() {
-        cout << "Failure!" << endl;
         setError();
-        cout << "  " << tokens.at(0).toString() << endl;
+        errToken.setToken(tokens.at(0).getType(), tokens.at(0).getValue(), tokens.at(0).getLineNum());
+        tokens.erase(tokens.begin()+1,tokens.end());
     }
 
     void match(TokenType t) {
-        cout << "match: " << typeName(t) << endl;
-        if (tokenType() == t)
-            advanceToken();
-        else
-            throwError();
+        if(err) {
+            if (tokenType() == t)
+                advanceToken();
+            else
+                throwError();
+        }
     }
 
     void idList() {
-        if (tokenType() == COMMA) {
-            match(COMMA);
-            para.setParameter(tokens.at(0).getValue());
-            pred.addParameter(para);
-            match(ID);
-            idList();
-        } else {
-            // lambda
+        if(err) {
+            if (tokenType() == COMMA) {
+                match(COMMA);
+                para.setParameter(tokens.at(0).getValue());
+                pred.addParameter(para);
+                match(ID);
+                idList();
+            } else {
+                // lambda
+            }
         }
     }
 
     void stringList() {
-        if (tokenType() == COMMA) {
-            match(COMMA);
-            para.setParameter(tokens.at(0).getValue());
-            pred.addParameter(para);
-            match(STRING);
-            stringList();
-        }
-        else {
-            // lambda
+        if(err) {
+            if (tokenType() == COMMA) {
+                match(COMMA);
+                para.setParameter(tokens.at(0).getValue());
+                date.addSet(tokens.at(0).getValue());
+                pred.addParameter(para);
+                match(STRING);
+                stringList();
+            }
+            else {
+                // lambda
+            }
         }
     }
 
     void schemeList() {
-        if (tokenType() == ID) {
-            scheme();
-            schemeList();
-        }
-        else {
-            // lambda
+        if(err) {
+            if (tokenType() == ID) {
+                scheme();
+                schemeList();
+            }
+            else {
+                // lambda
+            }
         }
     }
 
     void factList() {
-        if (tokenType() == ID) {
-            fact();
-            factList();
-        }
-        else {
-            // lambda
+        if(err) {
+            if (tokenType() == ID) {
+                fact();
+                factList();
+            }
+            else {
+                // lambda
+            }
         }
     }
 
 
     void ruleList() {
-        if (tokenType() == ID) {
-            rule();
-            ruleList();
-        }
-        else {
-            // lambda
+        if(err){
+            if (tokenType() == ID) {
+                rule();
+                ruleList();
+            }
+            else {
+                // lambda
+            }
         }
     }
 
     void queryList() {
-        if (tokenType() == QUERIES) {
-            match(QUERIES);
+        if (tokenType() == ID) {
+            query();
             queryList();
         }
         else {
@@ -108,24 +133,30 @@ class Parser {
     }
 
     void predicateList() {
-        if (tokenType() == COMMA) {
-            match(COMMA);
-            predicate();
-            predicateList();
-        }
-        else {
-            // lambda
+        if(err) {
+            if (tokenType() == COMMA) {
+                match(COMMA);
+                predicate();
+                //
+                pred.getParameter().clear();
+                predicateList();
+            }
+            else {
+                // lambda
+            }
         }
     }
 
     void parameterList() {
-        if (tokenType() == COMMA) {
-            match(COMMA);
-            parameter();
-            parameterList();
-        }
-        else {
-            // lambda
+        if(err){
+            if (tokenType() == COMMA) {
+                match(COMMA);
+                parameter();
+                parameterList();
+            }
+            else {
+                // lambda
+            }
         }
     }
 
@@ -155,6 +186,7 @@ class Parser {
             match(ID);
             match(LEFT_PAREN);
             para.setParameter(tokens.at(0).getValue());
+            date.addSet(tokens.at(0).getValue());
             pred.addParameter(para);
             match(STRING);
             stringList();
@@ -172,7 +204,6 @@ class Parser {
             headPredicate();
             match(COLON_DASH);
             predicate();
-            r.addRule(pred);
             pred.getParameter().clear();
             predicateList();
             match(PERIOD);
@@ -204,6 +235,8 @@ class Parser {
         parameter();
         parameterList();
         match(RIGHT_PAREN);
+        //
+        r.addRule(pred);
         
     }
 
@@ -254,28 +287,25 @@ class Parser {
             match(COLON);
             query();
             queryList();
+            match(END_FILE);
         }
 
 
-        if(tokenType() == END_FILE) {
+        if(tokens.size()==0 && err) {
             cout << "Success!" << endl;
-        }
-
-        if (err) {            
             cout << date.schemeString();
             cout << date.factString();
             cout << r.ruleString();
             cout << date.queryString();
+            cout << date.setString();
+        }
+
+        else {
+            cout << "Failure!" << endl;
+            cout << "  " << errToken.toString() << endl;
         }
 
 
-
-
-
-        // Function to check END OF FILE ????
-
-
-        //
     }
     
 };

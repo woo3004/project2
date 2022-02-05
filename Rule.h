@@ -37,12 +37,12 @@ class Rule {
                     ss << rule_list.at(i).rule_set.at(j).getID() << "(" 
                     << rule_list.at(i).rule_set.at(j).parameterString() << ")";
                     if(j != rule_list.at(i).rule_set.size() - 1) {
-                    ss << ", ";
+                    ss << ",";
                     }
                 }
+                ss << ".\n";
             }
 
-            ss << ".\n";
 
             return ss.str();
         }

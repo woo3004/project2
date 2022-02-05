@@ -107,12 +107,19 @@ public:
         Token::lineNum = lineNum;
     }
 
+    void setToken(TokenType t, string v, int l) {
+        type = t;
+        value = v;
+        lineNum = l;
+    }
+    
     string toString()
     {
         stringstream outSS;
         outSS << "(" << typeName(type) << ",\"" << value << "\"," << lineNum << ")";
         return outSS.str();
     }
+
 
 };
 

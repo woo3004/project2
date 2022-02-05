@@ -37,7 +37,7 @@ class Predicate {
             for(unsigned i = 0; i < parameter_set.size(); i++) {
                 ss << parameter_set.at(i).getParaVal();
                 if(i != parameter_set.size() - 1) {
-                    ss << ", ";
+                    ss << ",";
                 }
             }
 

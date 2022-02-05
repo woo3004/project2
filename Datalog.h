@@ -1,4 +1,4 @@
-#pragma onece
+#pragma once
 
 #include <sstream>
 #include "Predicate.h"
@@ -74,5 +74,14 @@ class Datalog {
             return ss.str();
         }
 
+        string setString() {
+            stringstream ss;
+            ss << "Domain" << "(" << domain_list.size() << ")" << ":\n";
+            for (set<string>::iterator it=domain_list.begin(); it!=domain_list.end(); it++) {
+                ss << "  " << *it << "\n";
+            }
+
+            return ss.str();
+        }
 
 };
