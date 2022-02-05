@@ -12,8 +12,7 @@ class Parameter {
             this -> value = value;
         }
 
-        string getParameter() {
+        string getParaVal() {
             return value;
         }
-
 };

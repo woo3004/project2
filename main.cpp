@@ -25,13 +25,11 @@ int main(int argc, char* argv[]) {
     cout << myTokens.at(i).toString() << endl;
   }
 
-  cout << "Total Tokens = " << s.GetTokenNum() << endl;
+  cout << "Total Tokens = " << s.GetTokenNum() << endl << endl;
 
   Parser p = Parser(myTokens);
 
-  cout << endl << typeName(p.tokenType()) << endl;
-
-  p.dataLogProgram();
+  p.datalogProgram();
 
   return 0;
 }
