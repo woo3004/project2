@@ -307,6 +307,10 @@ class Parser {
 
 
     }
+
+    Datalog getDataLog() {
+        return date;
+    }
     
 };
 
